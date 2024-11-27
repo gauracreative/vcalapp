@@ -53,10 +53,7 @@ export default class Vcal {
     async sendEventsForRange(startDate, endDate, start) {
         const data = await this.fetchEventsData();
         const eventsInRange = data.filter((event) => {
-            // Parse the event's UTC date and convert it to a local date
-            const eventDate = new Date(event.date).toLocaleDateString('en-CA'); // Local date in 'YYYY-MM-DD'
-
-            // Compare local date strings
+            const eventDate = event.date; // Already in 'YYYY-MM-DD' format
             return eventDate >= startDate && eventDate <= endDate;
         });
 
@@ -75,12 +72,14 @@ export default class Vcal {
             });
 
         } else {
-            message = noEventsMessage;
-            message += startDate != endDate ? `between ${this.#formattedDate(startDate)} and ${this.#formattedDate(endDate)}` : 'today ';
-            message += ' 😔';
+            // message = noEventsMessage;
+            // message += startDate != endDate ? `between ${this.#formattedDate(startDate)} and ${this.#formattedDate(endDate)}` : 'today ';
+            // message += ' 😔';
         }
 
-        await this.#sendTelegramMessage(message);
+        if (message) {
+            await this.#sendTelegramMessage(message);
+        }
     }
 
 
@@ -93,34 +92,31 @@ export default class Vcal {
         return message;
     }
 
-    // Get today's date in YYYY-MM-DD
     #getToday() {
         const now = new Date();
-        return now.toLocaleDateString('en-CA'); // Formats as 'YYYY-MM-DD' in local time
+        return this.#ymdDate(now); // Use helper method
     }
-
-    // Get tomorrow's date in YYYY-MM-DD
+    
     #getTomorrow() {
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        return tomorrow.toLocaleDateString('en-CA'); // Formats as 'YYYY-MM-DD' in local time
+        return this.#ymdDate(tomorrow); // Use helper method
     }
-
-    // Get current week (YYYY-MM-DD to YYYY-MM-DD)
+    
     #getWeekRange() {
         const now = new Date();
         const startOfWeek = new Date(now);
         const endOfWeek = new Date(now);
-
+    
         // Set to the start of the week (Sunday)
         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-
+    
         // Set to the end of the week (Saturday)
         endOfWeek.setDate(startOfWeek.getDate() + 6);
-
+    
         return {
-            start: startOfWeek.toLocaleDateString('en-CA'), // Formats as 'YYYY-MM-DD'
-            end: endOfWeek.toLocaleDateString('en-CA'),     // Formats as 'YYYY-MM-DD'
+            start: this.#ymdDate(startOfWeek), // Use helper method
+            end: this.#ymdDate(endOfWeek),     // Use helper method
         };
     }
 
@@ -164,14 +160,23 @@ export default class Vcal {
     }
 
     #formattedDate(dateString) {
-        const date = new Date(dateString);
-
+        const [year, month, day] = dateString.split('-'); // Split 'YYYY-MM-DD'
+        const date = new Date(year, month - 1, day); // Convert to Date object
+    
         const formattedDate = date.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
         });
-
+    
         return formattedDate;
     }
+
+    #ymdDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+    
 }
