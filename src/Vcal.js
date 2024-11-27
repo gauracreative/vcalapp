@@ -151,11 +151,11 @@ export default class Vcal {
 
             const result = await response.json();
             if (!result.ok) {
-                throw new Error(`Telegram API Error: ${result.description}`);
+                throw new Error(`[${new Date().toISOString()}] Telegram API Error: ${result.description}`);
             }
-            console.log('Message sent successfully.');
+            console.log(`[${new Date().toISOString()}] Message sent successfully.`);
         } catch (error) {
-            console.error('Error sending Telegram message:', error.message);
+            console.error(`[${new Date().toISOString()}] Error sending Telegram message:`, error.message);
         }
     }
 

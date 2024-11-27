@@ -54,14 +54,17 @@ crontab -e
 ```
 2. **Add Jobs**: Add the following entries to schedule the reminders:
 ```bash
+# optional - if your server system time is different (adjust to your own time zone)
+TZ=America/Chicago
 # Run the script for today's events at 4 AM every day except Sunday
-0 4 * * 1-6 node /path/to/index.js today
+0 4 * * 1-6 /usr/bin/node /path/to/index.js today >> /path/to/cron.log
 
 # Run the script for tomorrow's events at 9 AM every day except Sunday
-0 9 * * 1-6 node /path/to/index.js tomorrow
+0 9 * * 1-6 /usr/bin/node /path/to/index.js tomorrow >> /path/to/cron.log
+
 
 # Run the script for this week's events at 4 AM on Sunday
-0 4 * * 0 node /path/to/index.js week
+0 4 * * 0 /usr/bin/node /path/to/index.js week >> /path/to/cron.log
 
 ```
 
