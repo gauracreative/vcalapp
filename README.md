@@ -82,3 +82,5 @@ crontab -e
 - For advanced scheduling or monitoring, consider using a process manager like [PM2](https://pm2.keymetrics.io/).
 
 Enjoy sending timely Vaiṣṇava reminders! 🙏
+
+![Notification Sample](./img/sample-notification.png "Vaiṣṇava Calendar App")
