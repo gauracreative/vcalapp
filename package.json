@@ -1,0 +1,29 @@
+{
+  "name": "vcalapp",
+  "version": "1.0.0",
+  "description": "a sample app that uses gauracreative/vaisnava-calendar-data-collection data and sends reminders on Telegram",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gauracreative/vcalapp.git"
+  },
+  "keywords": [
+    "vaisnava",
+    "calendar",
+    "pure",
+    "bhakti"
+  ],
+  "author": "Jay Gaura",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gauracreative/vcalapp/issues"
+  },
+  "homepage": "https://github.com/gauracreative/vcalapp#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
