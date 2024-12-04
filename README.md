@@ -57,14 +57,14 @@ crontab -e
 # optional - if your server system time is different (adjust to your own time zone)
 TZ=America/Chicago
 # Run the script for today's events at 4 AM every day except Sunday
-0 4 * * 1-6 /usr/bin/node /path/to/index.js today >> /path/to/cron.log
+0 4 * * 1-6 cd /path/to/vcalapp && /usr/bin/node index.js today >> cron.log
 
 # Run the script for tomorrow's events at 9 AM every day except Sunday
-0 9 * * 1-6 /usr/bin/node /path/to/index.js tomorrow >> /path/to/cron.log
+0 9 * * 1-6 cd /path/to/vcalapp && /usr/bin/node index.js tomorrow >> cron.log
 
 
 # Run the script for this week's events at 4 AM on Sunday
-0 4 * * 0 /usr/bin/node /path/to/index.js week >> /path/to/cron.log
+0 4 * * 0 cd /path/to/vcalapp && /usr/bin/node index.js week >> cron.log
 
 ```
 
@@ -83,6 +83,17 @@ TZ=America/Chicago
 - Ensure the environment file (`.env`) contains the correct `DATA_URL`, `TELEGRAM_BOT_TOKEN`, and `TELEGRAM_CHAT_ID`.
 - Use `node index.js` with the appropriate argument to test each functionality before adding it to `cron`.
 - For advanced scheduling or monitoring, consider using a process manager like [PM2](https://pm2.keymetrics.io/).
+- When setting up a cronjob, ensure that the server's timezone is correctly configured. On a Linux server, you can check the current timezone using:
+
+    ```bash
+    timedatectl
+    ```
+    To change the timezone, use the following command (replace America/Chicago with your desired timezone):
+
+    ```bash
+    sudo timedatectl set-timezone America/Chicago
+    ```
+    This ensures your cronjob runs at the intended local time.
 
 Enjoy sending timely Vaiṣṇava reminders! 🙏
 

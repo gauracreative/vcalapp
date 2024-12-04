@@ -2,3 +2,4 @@
 node_modules
 /test.js
 /cron.log
+/*.code-workspace
